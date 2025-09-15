@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bravo Squadron Morale Shop</title>
+  <meta name="description" content="Parents weekend release" />
+  <style>
+    :root{
+      --black:#000000;
+      --dark-gray:#2C2F30;
+      --charcoal:#2B2B2B;
+      --near-black:#2B2C2C;
+      --green:#0F9550;
+      --white:#FFFFFF;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 18px;
+    }
+
+    *{box-sizing:border-box}
+    html, body {
+      margin:0;
+      height:100%;
+      background:var(--near-black);
+      color:var(--white);
+      font-family: ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,"Helvetica Neue",sans-serif;
+      overflow-x: hidden;
+    }
+    img{max-width:100%;display:block}
+    a{color:inherit;text-decoration:none}
+    button{border:0;background:transparent;color:inherit;font:inherit;cursor:pointer}
+    .container{width:min(1200px,92%);margin-inline:auto}
+    .grid{display:grid;gap:28px}
+    header{position:sticky;top:0;z-index:50;backdrop-filter:saturate(1.1) blur(8px);background:linear-gradient(180deg, rgba(43,44,44,.85), rgba(43,44,44,.65));border-bottom:1px solid rgba(255,255,255,.06)}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:16px 0}
+    .brand{display:flex;gap:12px;align-items:center}
+    .brand img{width:40px;height:40px;filter:drop-shadow(0 4px 10px rgba(0,0,0,.55));border-radius:8px}
+    .brand span{font-weight:800;letter-spacing:.5px}
+    .hero{position:relative;isolation:isolate}
+    .hero-wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:32px;align-items:center;padding:64px 0}
+    .hero h1{font-size:clamp(28px,4.2vw,56px);line-height:1.05;margin:0 0 14px}
+    .hero p{color:#d7d7d7;opacity:.92;margin:0 0 20px;font-size:clamp(15px,1.5vw,18px)}
+    .hero-card{background:linear-gradient(165deg, var(--dark-gray), var(--near-black));border:1px solid rgba(255,255,255,.06);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+    .pulse{position:absolute;inset:-40%;background:conic-gradient(from 180deg at 50% 50%, rgba(15,149,80,.25), transparent 35%);filter:blur(70px);z-index:-1;animation:pulse 9s linear infinite}
+    @keyframes pulse{to{transform:rotate(1turn)}}
+    section{padding:56px 0}
+    h2.section-title{font-size:clamp(22px,3vw,34px);margin:0 0 18px}
+    .subtitle{color:#bfc7c4;opacity:.9;margin-bottom:26px}
+    .cards{grid-template-columns:repeat(12,1fr)}
+    .card{grid-column:span 4;background:linear-gradient(180deg, var(--charcoal), var(--near-black));border:1px solid rgba(255,255,255,.06);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transform-style:preserve-3d;transition:transform .12s ease}
+    @media (max-width:960px){.card{grid-column:span 6}}
+    @media (max-width:640px){.hero-wrap{grid-template-columns:1fr}.card{grid-column:span 12}}
+    .card figure{position:relative;aspect-ratio:1/1;background:radial-gradient(circle at 30% 20%, rgba(15,149,80,.18), rgba(0,0,0,.3) 60%)}
+    .card figure img{width:100%;height:100%;object-fit:cover}
+    .card .meta{padding:16px 16px 18px}
+    .card h3{margin:0 0 6px;font-size:18px}
+    .price{color:#9be0bf;font-weight:800}
+    .pill{padding:6px 10px;border-radius:999px;background:rgba(15,149,80,.14);border:1px solid rgba(15,149,80,.35);font-size:12px;font-weight:700;color:#a5e5c8}
+    .actions{display:flex;gap:10px;margin-top:14px}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1)}
+    .btn:hover{background:rgba(255,255,255,.1)}
+    .btn.primary{background:var(--green);color:var(--black);border-color:transparent;box-shadow:0 10px 24px rgba(15,149,80,.35)}
+    .btn.primary:hover{filter:saturate(1.05) contrast(1.02)}
+    .slide{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.45);border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:20px;line-height:1;cursor:pointer;color:white;}
+    .slide.prev{left:8px}
+    .slide.next{right:8px}
+    .slide:hover{background:rgba(0,0,0,.65)}
+    .strip{background:linear-gradient(180deg, #0d0d0d, var(--black));border-block:1px solid rgba(255,255,255,.06)}
+    .strip-items{display:grid;grid-template-columns:repeat(5,1fr);gap:24px;align-items:center;padding:18px 0}
+    .strip-items span{opacity:.78;text-align:center}
+    @media (max-width:860px){.strip-items{grid-template-columns:repeat(2,1fr)}}
+    dialog{border:1px solid rgba(255,255,255,.12);border-radius:16px;background:linear-gradient(180deg, var(--dark-gray), var(--near-black));color:var(--white);box-shadow:0 30px 80px rgba(0,0,0,.6);width:min(920px,92%)}
+    dialog::backdrop{background:rgba(0,0,0,.7)}
+    .modal{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+    .modal .media{aspect-ratio:1/1;background:radial-gradient(circle at 30% 20%, rgba(15,149,80,.18), rgba(0,0,0,.3) 60%);border-radius:12px;overflow:hidden}
+    .modal h3{margin:2px 0}
+    footer{padding:40px 0;border-top:1px solid rgba(255,255,255,.06);background:linear-gradient(180deg, var(--near-black), #0c0c0c)}
+    .foot{display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:space-between}
+    .social a{opacity:.8}
+    .social a:hover{opacity:1}
+    .reveal{opacity:0;transform:translateY(18px);filter:blur(2px)}
+    .reveal.show{opacity:1;transform:none;filter:none;transition:opacity .6s ease, transform .6s ease, filter .6s ease}
+  </style>
+</head>
+<body>
+  <!-- Header/Nav -->
+  <header>
+  <div class="container nav">
+    <a class="brand" href="#top" aria-label="Thunderbolts home">
+      <img src="BR.png" alt="Thunderbolts logo" />
+      <span>Bravo Squadron Morale Shop</span>
+    </a>
+    <a href="mailto:P26Julian.Rivas@afacademy.af.edu" class="btn primary" style="padding:8px 14px;font-size:14px;">
+      Contact
+    </a>
+  </div>
+</header>
+
+  <!-- Hero -->
+  <section class="hero" id="top">
+    <div class="pulse" aria-hidden="true"></div>
+    <div class="container hero-wrap">
+      <div class="hero-card reveal">
+        <h1>Morale T-Shirts</h1>
+        <p>Whether you’re a cadet  candidate, family member, or supporter, our gear lets you wear the Thunderbolt name with honor. Your purchase directly supports morale initiatives and keeps our squadron strong.</p>
+        <div style="margin-top:18px;display:flex;gap:12px">
+          <a class="btn primary" href="#catalog">Browse Collection</a>
+    
+        </div>
+      </div>
+      <div class="reveal" style="position:relative">
+        <img src="BR.png" alt="Featured patch" style="border-radius:var(--radius);border:1px solid rgba(255, 255, 255, 0)" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust strip -->
+  <div class="strip">
+    <div class="container strip-items">
+      <span> </span>
+      <span>★ Squadron Owned</span>
+      <span>★ Brought To You By MWR</span>
+      <span>★ Support Your Squadron</span>
+      <span> </span>
+    </div>
+  </div>
+
+  <!-- Catalog -->
+  <section id="catalog">
+    <div class="container">
+      <h2 class="section-title">Latest Drops</h2>
+      <p class="subtitle">Bravo’s Newest Release – Fresh Gear Just Dropped!
+Represent Bravo Squadron in style. Get yours before they’re gone!</p>
+      <div class="grid cards" id="cards"></div>
+    </div>
+  </section>
+
+  <!-- Quick View Modal -->
+  <dialog id="quick">
+    <div class="modal container" style="padding:18px">
+      <div class="media"><img id="qImg" alt="Patch large view"></div>
+      <div>
+        <button id="qClose" style="float:right;opacity:.8">✕</button>
+        <h3 id="qTitle"></h3>
+        <p id="qDesc" class="subtitle" style="margin:6px 0 12px"></p>
+        <div class="price" id="qPrice" style="font-size:20px;margin-bottom:12px"></div>
+        <label for="qSize">Size:</label>
+        <select id="qSize" style="margin-bottom:12px;"></select>
+        <div class="actions">
+          <button class="btn primary" id="qBuy">Purchase</button>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container foot">
+      <div style="opacity:.85">© <span id="yr"></span> Bravo Squadron MWR | Not Affiliated With USAFAPS.</div>
+      <div class="social" style="display:flex;gap:14px"></div>
+    </div>
+  </footer>
+
+  <script>
+    // ========= Product data =========
+    const patches = [
+      {id:1, name:"Class of 2026 T-Shirt", price:30, tag:"New!", imgs:["co26.png","back.png"], desc:"Show your pride with the official Bravo Squadron Class of 2026 T-Shirt! Designed for comfort and style, this shirt is perfect for training days, morale events, or just representing Bravo Squadron. Made with soft, durable fabric, it keeps you looking sharp while honoring your class spirit.", sizes:["XS","S","M","L","XL","2XL","3XL"]},
+      {id:2, name:"ThunderBolts Morale T-Shirt", price:25, tag:"New!", imgs:["thunder.png","back.png"], desc:"Show your pride with the official Bravo Squadron Thunderbolts Morale T-Shirt! Built for comfort and style, this shirt is perfect for training days, morale events, or simply representing Bravo Squadron wherever you go. Made from soft, durable fabric, it keeps you looking sharp while showcasing your Thunderbolt spirit and Class of 2026 pride.", sizes:["XS","S","M","L","XL","2XL","3XL"]}
+    ];
+
+    // ========= Render cards with image gallery =========
+    const cards = document.getElementById('cards');
+    cards.innerHTML = patches.map(p => `
+      <article class="card" data-id="${p.id}">
+        <figure data-index="0">
+          <img src="${p.imgs[0]}" alt="${p.name}">
+          ${p.imgs.length > 1 ? `
+          <button class="slide prev" data-prev="${p.id}">‹</button>
+          <button class="slide next" data-next="${p.id}">›</button>` : ''}
+        </figure>
+        <div class="meta">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+            <h3>${p.name}</h3>
+            <span class="pill">${p.tag}</span>
+          </div>
+          <div class="price">$${p.price.toFixed(2)}</div>
+          <select class="size-select" style="margin-top:8px;margin-bottom:12px;">
+            ${p.sizes.map(s=>`<option value="${s}">${s}</option>`).join('')}
+          </select>
+          <div class="actions">
+            <button class="btn primary" data-buy="${p.id}">Purchase</button>
+            <button class="btn" data-quick="${p.id}">Quick View</button>
+          </div>
+        </div>
+      </article>
+    `).join('');
+
+    // ========= Click events =========
+    document.addEventListener('click', e=>{
+      const buyBtn = e.target.closest('[data-buy]');
+      if(buyBtn){
+        const productId = +buyBtn.dataset.buy;
+        const card = buyBtn.closest('.card');
+        const select = card.querySelector('select.size-select');
+        const size = select ? select.value : 'M';
+        // Redirect based on size (set your links here)
+        let link = '#';
+        if(productId===1){
+          link = size==='XS'?'https://buy.stripe.com/9B63cx50deV90RX9wndAk00':size==='S'?'https://buy.stripe.com/7sY6oJ0JXeV9asx6kbdAk01':size==='M'?'https://buy.stripe.com/5kQfZj78lcN17glgYPdAk02':size==='L'?'https://buy.stripe.com/5kQbJ3eAN14jdEJfULdAk03':size==='XL'?'https://buy.stripe.com/eVq00l9gtaETasx23VdAk04':size==='2XL'?'https://buy.stripe.com/00weVfakxcN16ch23VdAk05':'https://buy.stripe.com/6oU4gBcsF3cr449aArdAk06';
+        }
+        if(productId===2){
+          link = size==='XS'?'https://buy.stripe.com/9B6eVf1O1dR5asx37ZdAk07':size==='S'?'https://buy.stripe.com/5kQ9AV0JX9AP8kp8sjdAk08':size==='M'?'https://buy.stripe.com/cNi3cx8cp6oD1W1cIzdAk09':size==='L'?'https://buy.stripe.com/bJeeVfakx9APfMRcIzdAk0a':size==='XL'?'https://buy.stripe.com/dRmaEZ2S57sH0RXfULdAk0b':size==='2XL'?'https://buy.stripe.com/aFa00lboB7sH9otgYPdAk0c':'https://buy.stripe.com/3cI7sN9gtbIXcAFgYPdAk0d';
+        }
+        window.open(link,'_blank');
+      }
+
+      const quickBtn = e.target.closest('[data-quick]');
+      if(quickBtn){ openQuick(+quickBtn.dataset.quick); }
+
+      const prev = e.target.closest('[data-prev]');
+      const next = e.target.closest('[data-next]');
+      if(prev || next){
+        const id = +(prev?.dataset.prev || next?.dataset.next);
+        const card = e.target.closest('.card');
+        const fig = card.querySelector('figure');
+        let index = +fig.dataset.index;
+        const imgs = patches.find(x=>x.id===id).imgs;
+        if(prev){ index = (index - 1 + imgs.length) % imgs.length; }
+        if(next){ index = (index + 1) % imgs.length; }
+        fig.dataset.index = index;
+        fig.querySelector('img').src = imgs[index];
+      }
+    });
+
+    // ========= Quick view =========
+    const dlg = document.getElementById('quick');
+    const qImg = document.getElementById('qImg');
+    const qTitle = document.getElementById('qTitle');
+    const qDesc = document.getElementById('qDesc');
+    const qPrice = document.getElementById('qPrice');
+    const qSize = document.getElementById('qSize');
+    const qBuy = document.getElementById('qBuy');
+    document.getElementById('qClose').onclick = ()=>dlg.close();
+
+    function openQuick(id){
+      const p = patches.find(x=>x.id===id);
+      qImg.src = p.imgs[0];
+      qTitle.textContent = p.name;
+      qDesc.textContent = p.desc;
+      qPrice.textContent = `$${p.price.toFixed(2)}`;
+      qSize.innerHTML = p.sizes.map(s=>`<option value="${s}">${s}</option>`).join('');
+      qBuy.onclick = ()=>{
+        const size = qSize.value;
+        // Set your links for quick view purchase
+        let link = '#';
+        if(id===1){
+          link = size==='XS'?'link-xs.html':size==='S'?'link-s.html':size==='M'?'link-m.html':size==='L'?'link-l.html':size==='XL'?'link-xl.html':size==='2XL'?'link-2xl.html':'link-3xl.html';
+        }
+        if(id===2){
+          link = size==='XS'?'t2-xs.html':size==='S'?'t2-s.html':size==='M'?'t2-m.html':size==='L'?'t2-l.html':size==='XL'?'t2-xl.html':size==='2XL'?'t2-2xl.html':'t2-3xl.html';
+        }
+        window.open(link,'_blank');
+        dlg.close();
+      };
+      dlg.showModal();
+    }
+
+    // ========= Scroll reveal =========
+    const obs = new IntersectionObserver(entries=>{
+      for(const e of entries){ if(e.isIntersecting) e.target.classList.add('show'); }
+    }, {threshold:.12});
+    document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+    // year
+    document.getElementById('yr').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
